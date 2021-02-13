@@ -5,3 +5,8 @@ resource "azurerm_storage_account" "this" {
   account_tier             = "Standard"
   account_replication_type = "LRS"
 }
+
+resource "azurerm_storage_table" "records" {
+  name                 = "records"
+  storage_account_name = azurerm_storage_account.this.name
+}
