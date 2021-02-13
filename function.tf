@@ -30,6 +30,7 @@ resource "azurerm_function_app" "this" {
     "FUNCTIONS_WORKER_RUNTIME"       = "node",
     "WEBSITE_NODE_DEFAULT_VERSION"   = "~12",
     "APPINSIGHTS_INSTRUMENTATIONKEY" = azurerm_application_insights.this.instrumentation_key,
-    "WEBSITE_RUN_FROM_PACKAGE"       = "1"
+    "WEBSITE_RUN_FROM_PACKAGE"       = "1",
+    "WIREPUSHER_ID"                  = var.wirepusher_id
   }
 }
