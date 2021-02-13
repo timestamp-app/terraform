@@ -10,6 +10,13 @@ resource "azurerm_app_service_plan" "this" {
   }
 }
 
+resource "azurerm_application_insights" "this" {
+  name                = local.name
+  location            = azurerm_resource_group.this.location
+  resource_group_name = azurerm_resource_group.this.name
+  application_type    = "other"
+}
+
 resource "azurerm_function_app" "this" {
   name                       = local.name
   location                   = azurerm_resource_group.this.location
@@ -19,11 +26,10 @@ resource "azurerm_function_app" "this" {
   storage_account_access_key = azurerm_storage_account.this.primary_access_key
   https_only                 = true
   version                    = "~3"
-}
-
-resource "azurerm_application_insights" "this" {
-  name                = local.name
-  location            = azurerm_resource_group.this.location
-  resource_group_name = azurerm_resource_group.this.name
-  application_type    = "other"
+  app_settings = {
+    "FUNCTIONS_WORKER_RUNTIME"       = "node",
+    "WEBSITE_NODE_DEFAULT_VERSION"   = "~12",
+    "APPINSIGHTS_INSTRUMENTATIONKEY" = azurerm_application_insights.this.instrumentation_key,
+    "WEBSITE_RUN_FROM_PACKAGE"       = "1"
+  }
 }
