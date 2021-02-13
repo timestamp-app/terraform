@@ -18,4 +18,5 @@ resource "azurerm_function_app" "this" {
   storage_account_name       = azurerm_storage_account.this.name
   storage_account_access_key = azurerm_storage_account.this.primary_access_key
   https_only                 = true
+  version                    = "~3"
 }
